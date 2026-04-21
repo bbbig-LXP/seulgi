@@ -190,4 +190,8 @@ public class Course {
         this.updatedAt = LocalDateTime.now();
     }
 
+    // getters
+    public Long getId() {
+        return id;
+    }
 }
