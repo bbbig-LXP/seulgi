@@ -1,5 +1,6 @@
 package com.lxp.course.model;
 
+import static com.lxp.course.model.CourseStatus.ARCHIVED;
 import static com.lxp.course.model.CourseStatus.DRAFT;
 import static com.lxp.course.model.CourseStatus.PUBLISHED;
 
@@ -77,7 +78,6 @@ public class Course {
         if (title == null || title.isBlank()) {
             throw new IllegalArgumentException("강좌명은 필수입니다.");
         }
-
         if (title.length() < 2 || title.length() > 50) {
             throw new IllegalArgumentException("강좌명은 2자 이상 50자 이하여야 합니다.");
         }
@@ -111,7 +111,7 @@ public class Course {
      * 강좌의 상태를 발행 상태로 변경한다. (publish)
      *
      * <p>- 섹션이 최소 1개 이상 존재해야 한다.
-     * <p>- 각 섹션 내 콘텐츠가 최소 1개 이상 존재해야 한다.
+     * <p>- 각 섹션 내 NORMAL 상태의 콘텐츠가 최소 1개 이상 존재해야 한다.
      * <p>- 검증 통과 시 status를 PUBLISHED로 바꾸고, publishedAt에 현재 시각을 기록한다.
      */
     public void publish() {
@@ -120,9 +120,13 @@ public class Course {
         }
 
         for (CourseSection section : sections) {
-            if (section.getContents().isEmpty()) {
+            boolean hasNoNormalContent = section.getContents().stream()
+                    .noneMatch(CourseContent::isNormal);
+
+            if (hasNoNormalContent) {
                 throw new IllegalStateException(
-                        String.format("섹션 '%s'에 콘텐츠가 최소 1개 이상 존재해야 합니다.", section.getTitle()));
+                        String.format("섹션 '%s'에 NORMAL 상태의 콘텐츠가 최소 1개 이상 존재해야 합니다.",
+                                section.getTitle()));
             }
         }
 
@@ -140,7 +144,6 @@ public class Course {
         if (this.status != DRAFT) {
             throw new IllegalStateException("DRAFT 상태인 강좌에만 섹션을 추가할 수 있습니다.");
         }
-
         this.sections.add(section);
         this.updatedAt = LocalDateTime.now();
     }
@@ -158,4 +161,25 @@ public class Course {
     public boolean isDraft() {
         return this.status == DRAFT;
     }
+
+    /**
+     * 보관된 강좌인지 확인한다.
+     */
+    public boolean isArchived() {
+        return this.status == ARCHIVED;
+    }
+
+    /**
+     * 강좌를 보관 상태로 변경한다.
+     *
+     * <p>- PUBLISHED 상태인 강좌만 보관할 수 있다.
+     */
+    public void archive() {
+        if (this.status != PUBLISHED) {
+            throw new IllegalStateException("PUBLISHED 상태인 강좌만 보관할 수 있습니다.");
+        }
+        this.status = ARCHIVED;
+        this.updatedAt = LocalDateTime.now();
+    }
+
 }
