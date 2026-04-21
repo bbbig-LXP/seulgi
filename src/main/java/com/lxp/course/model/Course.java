@@ -1,6 +1,7 @@
 package com.lxp.course.model;
 
 import static com.lxp.course.model.CourseStatus.DRAFT;
+import static com.lxp.course.model.CourseStatus.PUBLISHED;
 
 import com.lxp.user.model.User;
 import java.time.LocalDateTime;
@@ -71,7 +72,7 @@ public class Course {
         course.updatedAt = updatedAt;
         return course;
     }
-    
+
     private void validateTitle(String title) {
         if (title == null || title.isBlank()) {
             throw new IllegalArgumentException("강좌명은 필수입니다.");
@@ -106,4 +107,27 @@ public class Course {
         }
     }
 
+    /**
+     * 강좌의 상태를 발행 상태로 변경한다. (publish)
+     *
+     * <p>- 섹션이 최소 1개 이상 존재해야 한다.
+     * <p>- 각 섹션 내 콘텐츠가 최소 1개 이상 존재해야 한다.
+     * <p>- 검증 통과 시 status를 PUBLISHED로 바꾸고, publishedAt에 현재 시각을 기록한다.
+     */
+    public void publish() {
+        if (sections.isEmpty()) {
+            throw new IllegalStateException("강좌에 섹션이 최소 1개 이상 존재해야 합니다.");
+        }
+
+        for (CourseSection section : sections) {
+            if (section.getContents().isEmpty()) {
+                throw new IllegalStateException(
+                        String.format("섹션 '%s'에 콘텐츠가 최소 1개 이상 존재해야 합니다.", section.getTitle()));
+            }
+        }
+
+        this.status = PUBLISHED;
+        this.publishedAt = LocalDateTime.now();
+        this.updatedAt = LocalDateTime.now();
+    }
 }
