@@ -141,6 +141,9 @@ public class Course {
      * <p>- 강좌의 상태가 DRAFT여야 한다.
      */
     public void addSection(CourseSection section) {
+        if (section == null) {
+            throw new IllegalArgumentException("추가하려는 섹션이 null입니다.");
+        }
         if (this.status != DRAFT) {
             throw new IllegalStateException("DRAFT 상태인 강좌에만 섹션을 추가할 수 있습니다.");
         }
