@@ -130,4 +130,32 @@ public class Course {
         this.publishedAt = LocalDateTime.now();
         this.updatedAt = LocalDateTime.now();
     }
+
+    /**
+     * 섹션을 추가한다.
+     *
+     * <p>- 강좌의 상태가 DRAFT여야 한다.
+     */
+    public void addSection(CourseSection section) {
+        if (this.status != DRAFT) {
+            throw new IllegalStateException("DRAFT 상태인 강좌에만 섹션을 추가할 수 있습니다.");
+        }
+
+        this.sections.add(section);
+        this.updatedAt = LocalDateTime.now();
+    }
+
+    /**
+     * 발행된 강좌인지 확인한다.
+     */
+    public boolean isPublished() {
+        return this.status == PUBLISHED;
+    }
+
+    /**
+     * 예정 상태인 강좌인지 확인한다.
+     */
+    public boolean isDraft() {
+        return this.status == DRAFT;
+    }
 }
