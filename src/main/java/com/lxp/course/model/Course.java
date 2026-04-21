@@ -7,6 +7,7 @@ import static com.lxp.course.model.CourseStatus.PUBLISHED;
 import com.lxp.user.model.User;
 import java.time.LocalDateTime;
 import java.util.ArrayList;
+import java.util.Collections;
 import java.util.List;
 
 public class Course {
@@ -152,7 +153,7 @@ public class Course {
         if (this.status != DRAFT) {
             throw new IllegalStateException("DRAFT 상태인 강좌에만 섹션을 추가할 수 있습니다.");
         }
-        
+
         this.sections.add(section);
         this.updatedAt = LocalDateTime.now();
     }
@@ -191,8 +192,43 @@ public class Course {
         this.updatedAt = LocalDateTime.now();
     }
 
-    // getters
     public Long getId() {
         return id;
+    }
+
+    public String getTitle() {
+        return title;
+    }
+
+    public String getDescription() {
+        return description;
+    }
+
+    public Long getInstructorId() {
+        return instructorId;
+    }
+
+    public CourseStatus getStatus() {
+        return status;
+    }
+
+    public CourseLevel getLevel() {
+        return level;
+    }
+
+    public LocalDateTime getPublishedAt() {
+        return publishedAt;
+    }
+
+    public LocalDateTime getCreatedAt() {
+        return createdAt;
+    }
+
+    public LocalDateTime getUpdatedAt() {
+        return updatedAt;
+    }
+
+    public List<CourseSection> getSections() {
+        return Collections.unmodifiableList(sections);
     }
 }
