@@ -64,8 +64,8 @@ public class CourseContent {
         if (title == null || title.isBlank()) {
             throw new IllegalArgumentException("콘텐츠 제목은 필수입니다.");
         }
-        if (title.length() > 50) {
-            throw new IllegalArgumentException("콘텐츠 제목은 50자 이하여야 합니다.");
+        if (title.length() < 2 || title.length() > 50) {
+            throw new IllegalArgumentException("콘텐츠 제목은 2자 이상 50자 이하여야 합니다.");
         }
     }
 

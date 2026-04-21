@@ -7,7 +7,6 @@ import java.util.List;
 
 public class CourseSection {
 
-
     private Long id;
     private String title;
     private Course course;
@@ -59,8 +58,8 @@ public class CourseSection {
             throw new IllegalArgumentException("섹션 제목은 필수입니다.");
         }
 
-        if (title.length() > 50) {
-            throw new IllegalArgumentException("섹션 제목은 50자 이하여야 합니다.");
+        if (title.length() < 2 || title.length() > 50) {
+            throw new IllegalArgumentException("섹션 제목은 2자 이상 50자 이하여야 합니다.");
         }
     }
 
@@ -68,29 +67,22 @@ public class CourseSection {
         if (course == null) {
             throw new IllegalArgumentException("강좌 정보는 필수입니다.");
         }
-        if (!course.isDraft()) {
-            throw new IllegalStateException("DRAFT 상태인 강좌에만 섹션을 추가할 수 있습니다.");
-        }
     }
 
     /**
-     * 콘텐츠를 추가한다.
+     * 콘텐츠를 추가한다. DRAFT, PUBLISHED 상태인 강좌에만 콘텐츠를 추가할 수 있다.
      */
     public void addContent(CourseContent content) {
         if (content == null) {
             throw new IllegalArgumentException("콘텐츠 정보는 필수입니다.");
         }
 
-        if (!isOwnerOf(content)) {
-            throw new IllegalArgumentException("해당 섹션에 속한 콘텐츠만 추가할 수 있습니다.");
+        if (this.course.isArchived()) {
+            throw new IllegalStateException("ARCHIVED 상태인 강좌에는 콘텐츠를 추가할 수 없습니다.");
         }
 
         this.contents.add(content);
         this.updatedAt = LocalDateTime.now();
-    }
-
-    private boolean isOwnerOf(CourseContent content) {
-        return content != null && content.getSection() == this;
     }
 
     public Long getId() {
