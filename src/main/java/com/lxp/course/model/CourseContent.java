@@ -93,5 +93,8 @@ public class CourseContent {
     public boolean isNormal() {
         return this.status == NORMAL;
     }
-    
+
+    public CourseSection getSection() {
+        return section;
+    }
 }

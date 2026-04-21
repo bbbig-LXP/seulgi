@@ -152,6 +152,7 @@ public class Course {
         if (this.status != DRAFT) {
             throw new IllegalStateException("DRAFT 상태인 강좌에만 섹션을 추가할 수 있습니다.");
         }
+        
         this.sections.add(section);
         this.updatedAt = LocalDateTime.now();
     }

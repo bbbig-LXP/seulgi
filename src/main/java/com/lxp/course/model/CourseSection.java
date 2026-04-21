@@ -80,9 +80,17 @@ public class CourseSection {
         if (content == null) {
             throw new IllegalArgumentException("콘텐츠 정보는 필수입니다.");
         }
-        
+
+        if (!isOwnerOf(content)) {
+            throw new IllegalArgumentException("해당 섹션에 속한 콘텐츠만 추가할 수 있습니다.");
+        }
+
         this.contents.add(content);
         this.updatedAt = LocalDateTime.now();
+    }
+
+    private boolean isOwnerOf(CourseContent content) {
+        return content != null && content.getSection() == this;
     }
 
     public Long getId() {
