@@ -1,9 +1,15 @@
 USE LXP;
 
--- 1. 데이터 초기화 (기존 데이터 삭제 후 재삽입 시 사용)
--- DELETE FROM Contents;
--- DELETE FROM CourseSections;
--- DELETE FROM Courses;
+-- 1. 외래 키 체크 해제 (TRUNCATE 시 에러 방지)
+SET FOREIGN_KEY_CHECKS = 0;
+
+-- 2. 데이터 초기화 및 ID 번호 초기화
+TRUNCATE TABLE Contents;
+TRUNCATE TABLE CourseSections;
+TRUNCATE TABLE Courses;
+
+-- 3. 외래 키 체크 다시 활성화
+SET FOREIGN_KEY_CHECKS = 1;
 
 -- 2. Courses (강의) 데이터
 INSERT INTO Courses (title, description, status, level, published_at)
