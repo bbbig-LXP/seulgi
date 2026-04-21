@@ -110,11 +110,16 @@ public class Course {
     /**
      * 강좌의 상태를 발행 상태로 변경한다. (publish)
      *
+     * <p>- DRAFT 상태인 강좌만 발행할 수 있다.
      * <p>- 섹션이 최소 1개 이상 존재해야 한다.
      * <p>- 각 섹션 내 NORMAL 상태의 콘텐츠가 최소 1개 이상 존재해야 한다.
      * <p>- 검증 통과 시 status를 PUBLISHED로 바꾸고, publishedAt에 현재 시각을 기록한다.
      */
     public void publish() {
+        if (this.status != DRAFT) {
+            throw new IllegalStateException("DRAFT 상태인 강좌만 발행할 수 있습니다.");
+        }
+
         if (sections.isEmpty()) {
             throw new IllegalStateException("강좌에 섹션이 최소 1개 이상 존재해야 합니다.");
         }
