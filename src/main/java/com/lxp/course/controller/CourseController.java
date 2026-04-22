@@ -1,7 +1,10 @@
 package com.lxp.course.controller;
 
 import com.lxp.course.model.Course;
+import com.lxp.course.model.CourseContent;
 import com.lxp.course.model.CourseSection;
+import com.lxp.course.model.enums.ContentStatus;
+import com.lxp.course.model.enums.ContentType;
 import com.lxp.course.model.enums.CourseLevel;
 import com.lxp.course.service.CourseService;
 import java.util.Scanner;
@@ -31,4 +34,11 @@ public class CourseController {
         return courseService.createSection(courseId, title);
     }
 
+    /**
+     * 콘텐츠를 등록하고 콘텐츠 객체를 반환한다.
+     */
+    public CourseContent createContent(Long sectionId, String title, ContentType type,
+            ContentStatus status) {
+        return courseService.createContent(sectionId, title, type, status);
+    }
 }
