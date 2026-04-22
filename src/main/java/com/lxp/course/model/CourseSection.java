@@ -99,4 +99,11 @@ public class CourseSection {
         return Collections.unmodifiableList(contents);
     }
 
+    public LocalDateTime getCreatedAt() {
+        return createdAt;
+    }
+
+    public LocalDateTime getUpdatedAt() {
+        return updatedAt;
+    }
 }

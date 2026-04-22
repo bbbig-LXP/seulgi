@@ -52,7 +52,7 @@ public class CourseService {
 
         CourseSection section = CourseSection.create(title, course);
 
-        course.addSection(section); // DRAFT 상태 검증
+        course.addSection(section);
 
         return sectionRepository.save(section);
     }

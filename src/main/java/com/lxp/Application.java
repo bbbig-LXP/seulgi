@@ -22,6 +22,7 @@ public class Application {
         while (true) {
             System.out.println("\n=== LXP 관리 시스템 ===");
             System.out.println("1. 강좌 등록");
+            System.out.println("2. 강좌 섹션 등록");
             System.out.println("0. 종료");
             System.out.print("선택: ");
 
@@ -29,6 +30,7 @@ public class Application {
 
             switch (input) {
                 case "1" -> courseController.createCourse();
+                case "2" -> courseController.createSection();
                 case "0" -> {
                     System.out.println("종료합니다.");
                     scanner.close();

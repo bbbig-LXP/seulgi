@@ -2,7 +2,9 @@ package com.lxp.global.config;
 
 import com.lxp.course.controller.CourseController;
 import com.lxp.course.repository.CourseRepository;
+import com.lxp.course.repository.CourseSectionRepository;
 import com.lxp.course.repository.JdbcCourseRepository;
+import com.lxp.course.repository.JdbcCourseSectionRepository;
 import com.lxp.course.service.CourseService;
 import com.lxp.global.util.DatabaseUtil;
 import com.lxp.user.repository.JdbcUserRepository;
@@ -38,11 +40,15 @@ public class AppConfig {
     }
 
     private CourseService courseService() {
-        return new CourseService(courseRepository(), userRepository());
+        return new CourseService(courseRepository(), courseSectionRepository(), userRepository());
     }
 
     private CourseRepository courseRepository() {
         return new JdbcCourseRepository(dataSource);
+    }
+
+    private CourseSectionRepository courseSectionRepository() {
+        return new JdbcCourseSectionRepository(dataSource);
     }
 
     private UserRepository userRepository() {
