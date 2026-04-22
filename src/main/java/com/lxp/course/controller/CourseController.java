@@ -44,15 +44,24 @@ public class CourseController {
         return courseService.createContent(sectionId, title, type, status);
     }
 
+    /**
+     * 모든 강좌를 조회한다.
+     */
     public List<Course> getAllCourses() {
         return courseService.getAllCourses();
     }
 
+    /**
+     * 강좌의 상세 정보를 조회한다. 강좌에 속한 섹션과 컨텐츠를 모두 반환한다.
+     */
     public CourseDetailResponse getCourseDetail(Long courseId) {
         Course course = courseService.getCourseWithDetail(courseId);
         return CourseDetailResponse.from(course);
     }
 
+    /**
+     * 강좌를 발행한다.
+     */
     public Course publishCourse(Long courseId) {
         return courseService.publishCourse(courseId);
     }
