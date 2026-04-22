@@ -76,6 +76,15 @@ public class Course {
         return course;
     }
 
+    /**
+     * DB 조회 결과 복원 시 섹션을 추가한다.
+     *
+     * <p> 이미 저장된 데이터를 복원하는 것이므로 도메인 검증을 수행하지 않는다.
+     */
+    public void addSectionForReconstruct(CourseSection section) {
+        this.sections.add(section);
+    }
+
     private void validateTitle(String title) {
         if (title == null || title.isBlank()) {
             throw new IllegalArgumentException("강좌명은 필수입니다.");

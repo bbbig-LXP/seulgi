@@ -3,10 +3,12 @@ package com.lxp.course.controller;
 import com.lxp.course.model.Course;
 import com.lxp.course.model.CourseContent;
 import com.lxp.course.model.CourseSection;
+import com.lxp.course.model.dto.CourseDetailResponse;
 import com.lxp.course.model.enums.ContentStatus;
 import com.lxp.course.model.enums.ContentType;
 import com.lxp.course.model.enums.CourseLevel;
 import com.lxp.course.service.CourseService;
+import java.util.List;
 import java.util.Scanner;
 
 public class CourseController {
@@ -41,4 +43,14 @@ public class CourseController {
             ContentStatus status) {
         return courseService.createContent(sectionId, title, type, status);
     }
+
+    public List<Course> getAllCourses() {
+        return courseService.getAllCourses();
+    }
+
+    public CourseDetailResponse getCourseDetail(Long courseId) {
+        Course course = courseService.getCourseWithDetail(courseId);
+        return CourseDetailResponse.from(course);
+    }
+
 }

@@ -51,6 +51,10 @@ public class CourseSection {
         return section;
     }
 
+    public void addContentForReconstruct(CourseContent content) {
+        this.contents.add(content);
+    }
+
     private void validateTitle(String title) {
         if (title == null || title.isBlank()) {
             throw new IllegalArgumentException("섹션 제목은 필수입니다.");
