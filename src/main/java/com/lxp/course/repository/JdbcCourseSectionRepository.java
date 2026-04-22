@@ -66,8 +66,8 @@ public class JdbcCourseSectionRepository implements CourseSectionRepository {
                     c.id AS course_id, c.title AS course_title, c.description,
                     c.instructor_id, c.status, c.level, c.published_at,
                     c.created_at AS course_created_at, c.updated_at AS course_updated_at
-                FROM CourseSections s
-                JOIN Courses c ON s.course_id = c.id
+                FROM course_sections s
+                JOIN courses c ON s.course_id = c.id
                 WHERE s.id = ?
                 """;
 
