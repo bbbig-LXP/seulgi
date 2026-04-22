@@ -53,4 +53,7 @@ public class CourseController {
         return CourseDetailResponse.from(course);
     }
 
+    public Course publishCourse(Long courseId) {
+        return courseService.publishCourse(courseId);
+    }
 }
