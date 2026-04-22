@@ -45,12 +45,12 @@ public class CourseController {
     }
 
     public List<Course> getAllCourses() {
-        return courseService.getCoursesByStatus();
+        return courseService.getAllCourses();
     }
 
     public CourseDetailResponse getCourseDetail(Long courseId) {
         Course course = courseService.getCourseWithDetail(courseId);
         return CourseDetailResponse.from(course);
     }
-    
+
 }

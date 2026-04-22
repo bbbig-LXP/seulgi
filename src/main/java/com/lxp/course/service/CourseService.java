@@ -85,7 +85,7 @@ public class CourseService {
         return contentRepository.save(content);
     }
 
-    public List<Course> getCoursesByStatus() {
+    public List<Course> getAllCourses() {
         return courseRepository.findAll();
     }
 
