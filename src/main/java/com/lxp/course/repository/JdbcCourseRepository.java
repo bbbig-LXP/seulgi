@@ -1,12 +1,15 @@
 package com.lxp.course.repository;
 
 import com.lxp.course.model.Course;
+import com.lxp.course.model.enums.CourseLevel;
+import com.lxp.course.model.enums.CourseStatus;
 import java.sql.Connection;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.sql.Statement;
 import java.sql.Timestamp;
+import java.util.Optional;
 import javax.sql.DataSource;
 
 public class JdbcCourseRepository implements CourseRepository {
@@ -59,6 +62,44 @@ public class JdbcCourseRepository implements CourseRepository {
 
         } catch (SQLException e) {
             throw new RuntimeException("강좌 저장 중 오류가 발생했습니다.", e);
+        }
+    }
+
+    @Override
+    public Optional<Course> findById(Long id) {
+        String sql = """
+                SELECT id, title, description, instructor_id, status, level,
+                       published_at, created_at, updated_at
+                FROM courses
+                WHERE id = ?
+                """;
+
+        try (Connection conn = dataSource.getConnection();
+                PreparedStatement pstmt = conn.prepareStatement(sql)) {
+
+            pstmt.setLong(1, id);
+
+            try (ResultSet rs = pstmt.executeQuery()) {
+                if (rs.next()) {
+                    Course course = Course.reconstruct(
+                            rs.getLong("id"),
+                            rs.getString("title"),
+                            rs.getString("description"),
+                            rs.getLong("instructor_id"),
+                            CourseStatus.valueOf(rs.getString("status")),
+                            CourseLevel.valueOf(rs.getString("level")),
+                            rs.getTimestamp("published_at") != null
+                                    ? rs.getTimestamp("published_at").toLocalDateTime() : null,
+                            rs.getTimestamp("created_at").toLocalDateTime(),
+                            rs.getTimestamp("updated_at").toLocalDateTime()
+                    );
+                    return Optional.of(course);
+                }
+                return Optional.empty();
+            }
+
+        } catch (SQLException e) {
+            throw new RuntimeException("강좌 조회 중 오류가 발생했습니다.", e);
         }
     }
 }
