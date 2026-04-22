@@ -4,6 +4,7 @@ import com.lxp.course.controller.CourseController;
 import com.lxp.course.model.Course;
 import com.lxp.course.model.CourseContent;
 import com.lxp.course.model.CourseSection;
+import com.lxp.course.model.dto.CourseDetailResponse;
 import com.lxp.course.model.enums.ContentStatus;
 import com.lxp.course.model.enums.ContentType;
 import com.lxp.course.model.enums.CourseLevel;
@@ -30,6 +31,7 @@ public class Application {
             System.out.println("2. 강좌 섹션 등록");
             System.out.println("3. 강좌 컨텐츠 등록");
             System.out.println("4. 강좌 전체 조회");
+            System.out.println("5. 강좌 상세 조회");
             System.out.println("0. 종료");
             System.out.print("선택: ");
 
@@ -40,6 +42,7 @@ public class Application {
                 case "2" -> handleCreateSection();
                 case "3" -> handleCreateContent();
                 case "4" -> handleGetAllCourses();
+                case "5" -> handleGetCourseDetail();
                 case "0" -> {
                     System.out.println("종료합니다.");
                     scanner.close();
@@ -134,6 +137,57 @@ public class Application {
                 System.out.println("강사 ID     : " + course.getInstructorId());
                 System.out.println("상태        : " + course.getStatus());
                 System.out.println("난이도      : " + course.getLevel());
+            }
+
+        } catch (NumberFormatException e) {
+            System.out.println("[오류] ID는 숫자로 입력해주세요.");
+        } catch (IllegalArgumentException e) {
+            System.out.println("[오류] " + e.getMessage());
+        }
+    }
+
+    private void handleGetCourseDetail() {
+        System.out.println("\n=== 강좌 단일 조회 ===");
+
+        try {
+            System.out.print("강좌 ID: ");
+            Long courseId = Long.parseLong(scanner.nextLine().trim());
+
+            CourseDetailResponse courseDetail = courseController.getCourseDetail(courseId);
+            Course course = courseDetail.course();
+            List<CourseSection> sections = courseDetail.sections();
+
+            System.out.println();
+            System.out.println("■ 강좌 정보");
+            System.out.println("  ID      : " + course.getId());
+            System.out.println("  제목    : " + course.getTitle());
+            System.out.println("  설명    : " + course.getDescription());
+            System.out.println("  강사 ID : " + course.getInstructorId());
+            System.out.println("  상태    : " + course.getStatus());
+            System.out.println("  난이도  : " + course.getLevel());
+            System.out.println("  발행일  : " + (course.getPublishedAt() != null
+                    ? course.getPublishedAt() : "미발행"));
+
+            if (sections.isEmpty()) {
+                System.out.println("\n  등록된 섹션이 없습니다.");
+                return;
+            }
+
+            for (CourseSection section : sections) {
+                System.out.println("\n  ▶ 섹션 [ID " + section.getId() + "] " + section.getTitle());
+
+                List<CourseContent> contents = section.getContents();
+                if (contents.isEmpty()) {
+                    System.out.println("    등록된 콘텐츠가 없습니다.");
+                } else {
+                    for (CourseContent content : contents) {
+                        System.out.printf("    - [ID %d] %s  (%s / %s)%n",
+                                content.getId(),
+                                content.getTitle(),
+                                content.getType(),
+                                content.getStatus());
+                    }
+                }
             }
 
         } catch (NumberFormatException e) {

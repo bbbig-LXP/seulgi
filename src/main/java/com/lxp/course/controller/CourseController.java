@@ -3,6 +3,7 @@ package com.lxp.course.controller;
 import com.lxp.course.model.Course;
 import com.lxp.course.model.CourseContent;
 import com.lxp.course.model.CourseSection;
+import com.lxp.course.model.dto.CourseDetailResponse;
 import com.lxp.course.model.enums.ContentStatus;
 import com.lxp.course.model.enums.ContentType;
 import com.lxp.course.model.enums.CourseLevel;
@@ -46,4 +47,10 @@ public class CourseController {
     public List<Course> getAllCourses() {
         return courseService.getCoursesByStatus();
     }
+
+    public CourseDetailResponse getCourseDetail(Long courseId) {
+        Course course = courseService.getCourseWithDetail(courseId);
+        return CourseDetailResponse.from(course);
+    }
+    
 }

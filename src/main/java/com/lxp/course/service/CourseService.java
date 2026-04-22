@@ -88,4 +88,9 @@ public class CourseService {
     public List<Course> getCoursesByStatus() {
         return courseRepository.findAll();
     }
+
+    public Course getCourseWithDetail(Long courseId) {
+        return courseRepository.findWithSectionsAndContentsById(courseId).orElseThrow(
+                () -> new IllegalArgumentException("존재하지 않는 강좌입니다. id=" + courseId));
+    }
 }
