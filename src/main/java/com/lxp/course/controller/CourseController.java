@@ -35,9 +35,7 @@ public class CourseController {
             CourseLevel level = CourseLevel.valueOf(scanner.nextLine().trim().toUpperCase());
 
             Course course = courseService.createCourse(instructorId, title, description, level);
-            System.out.printf("%n강좌가 등록되었습니다. [ID: %d] %s%n",
-                    course.getId(), course.getTitle());
-
+            System.out.printf("%n강좌가 등록되었습니다. [ID: %d] %s%n", course.getId(), course.getTitle());
         } catch (IllegalArgumentException | IllegalStateException e) {
             System.out.println("[오류] " + e.getMessage());
         }
