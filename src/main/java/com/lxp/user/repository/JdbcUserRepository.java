@@ -1,5 +1,7 @@
-package com.lxp.user.model;
+package com.lxp.user.repository;
 
+import com.lxp.user.model.User;
+import com.lxp.user.model.UserType;
 import java.sql.Connection;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;

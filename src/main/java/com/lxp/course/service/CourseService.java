@@ -4,7 +4,7 @@ import com.lxp.course.model.Course;
 import com.lxp.course.model.enums.CourseLevel;
 import com.lxp.course.repository.CourseRepository;
 import com.lxp.user.model.User;
-import com.lxp.user.model.UserRepository;
+import com.lxp.user.repository.UserRepository;
 
 public class CourseService {
 

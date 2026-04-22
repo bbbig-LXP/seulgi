@@ -26,10 +26,14 @@ public class DatabaseUtil {
             String URL = requireEnv("DB_URL");
             String USER = requireEnv("DB_USER");
             String PASSWORD = requireEnv("DB_PASSWORD");
-            
+
             return DriverManager.getConnection(URL, USER, PASSWORD);
         } catch (ClassNotFoundException e) {
             throw new SQLException("JDBC 드라이버를 찾을 수 없습니다.", e);
         }
+    }
+
+    public static String getEnv(String key) throws SQLException {
+        return requireEnv(key);
     }
 }
