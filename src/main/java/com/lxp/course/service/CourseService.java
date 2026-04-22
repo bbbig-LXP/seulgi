@@ -1,8 +1,12 @@
 package com.lxp.course.service;
 
 import com.lxp.course.model.Course;
+import com.lxp.course.model.CourseContent;
 import com.lxp.course.model.CourseSection;
+import com.lxp.course.model.enums.ContentStatus;
+import com.lxp.course.model.enums.ContentType;
 import com.lxp.course.model.enums.CourseLevel;
+import com.lxp.course.repository.CourseContentRepository;
 import com.lxp.course.repository.CourseRepository;
 import com.lxp.course.repository.CourseSectionRepository;
 import com.lxp.user.model.User;
@@ -12,12 +16,15 @@ public class CourseService {
 
     private final CourseRepository courseRepository;
     private final CourseSectionRepository sectionRepository;
+    private final CourseContentRepository contentRepository;
     private final UserRepository userRepository;
 
     public CourseService(CourseRepository courseRepository,
-            CourseSectionRepository sectionRepository, UserRepository userRepository) {
+            CourseSectionRepository sectionRepository, CourseContentRepository contentRepository,
+            UserRepository userRepository) {
         this.courseRepository = courseRepository;
         this.sectionRepository = sectionRepository;
+        this.contentRepository = contentRepository;
         this.userRepository = userRepository;
     }
 
@@ -57,4 +64,23 @@ public class CourseService {
         return sectionRepository.save(section);
     }
 
+    /**
+     * 콘텐츠를 등록한다.
+     *
+     * <p>- section_id가 DB에 존재해야 한다. (인프라 검증)
+     * <p>- 강좌 상태가 DRAFT 또는 PUBLISHED여야 한다. (CourseSection 도메인에서 검증)
+     * <p>- 콘텐츠 제목 불변식은 CourseContent 도메인에서 검증한다.
+     */
+    public CourseContent createContent(Long sectionId, String title, ContentType type,
+            ContentStatus status) {
+
+        CourseSection section = sectionRepository.findById(sectionId).orElseThrow(
+                () -> new IllegalArgumentException("존재하지 않는 섹션입니다. sectionId=" + sectionId));
+
+        CourseContent content = CourseContent.create(title, type, status, section);
+
+        section.addContent(content);
+
+        return contentRepository.save(content);
+    }
 }
