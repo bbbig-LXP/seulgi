@@ -1,6 +1,7 @@
 package com.lxp.course.controller;
 
 import com.lxp.course.model.Course;
+import com.lxp.course.model.CourseSection;
 import com.lxp.course.model.enums.CourseLevel;
 import com.lxp.course.service.CourseService;
 import java.util.Scanner;
@@ -16,28 +17,18 @@ public class CourseController {
     }
 
     /**
-     * 강좌 등록 흐름을 처리한다.
+     * 강좌를 등록하고 생성된 강좌 객체를 반환한다.
      */
-    public void createCourse() {
-        System.out.println("\n=== 강좌 등록 ===");
-
-        try {
-            System.out.print("강사 ID: ");
-            Long instructorId = Long.parseLong(scanner.nextLine().trim());
-
-            System.out.print("강좌명: ");
-            String title = scanner.nextLine().trim();
-
-            System.out.print("강좌 설명: ");
-            String description = scanner.nextLine().trim();
-
-            System.out.print("난이도 (BEGINNER / INTERMEDIATE / ADVANCED): ");
-            CourseLevel level = CourseLevel.from(scanner.nextLine().trim());
-
-            Course course = courseService.createCourse(instructorId, title, description, level);
-            System.out.printf("%n강좌가 등록되었습니다. [ID: %d] %s%n", course.getId(), course.getTitle());
-        } catch (IllegalArgumentException | IllegalStateException e) {
-            System.out.println("[오류] " + e.getMessage());
-        }
+    public Course createCourse(Long instructorId, String title, String description,
+            CourseLevel level) {
+        return courseService.createCourse(instructorId, title, description, level);
     }
+
+    /**
+     * 섹션을 등록하고 생성된 섹션 객체를 반환한다.
+     */
+    public CourseSection createSection(Long courseId, String title) {
+        return courseService.createSection(courseId, title);
+    }
+
 }
