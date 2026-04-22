@@ -39,10 +39,8 @@ public class CourseSection {
 
     /**
      * DB 조회 결과로부터 CourseSection 객체를 복원한다.
-     *
-     * <p> CourseSectionRepository에서만 호출되어야 한다. (package-private)
      */
-    static CourseSection reconstruct(Long id, String title, Course course,
+    public static CourseSection reconstruct(Long id, String title, Course course,
             LocalDateTime createdAt, LocalDateTime updatedAt) {
         CourseSection section = new CourseSection();
         section.id = id;

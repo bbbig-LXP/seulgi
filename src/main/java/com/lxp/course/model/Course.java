@@ -1,9 +1,11 @@
 package com.lxp.course.model;
 
-import static com.lxp.course.model.CourseStatus.ARCHIVED;
-import static com.lxp.course.model.CourseStatus.DRAFT;
-import static com.lxp.course.model.CourseStatus.PUBLISHED;
+import static com.lxp.course.model.enums.CourseStatus.ARCHIVED;
+import static com.lxp.course.model.enums.CourseStatus.DRAFT;
+import static com.lxp.course.model.enums.CourseStatus.PUBLISHED;
 
+import com.lxp.course.model.enums.CourseLevel;
+import com.lxp.course.model.enums.CourseStatus;
 import com.lxp.user.model.User;
 import java.time.LocalDateTime;
 import java.util.ArrayList;
@@ -57,9 +59,8 @@ public class Course {
      * DB 조회 결과로부터 Course 객체를 복원한다.
      *
      * <p> 이미 저장된 데이터를 복원하는 것이므로 도메인 검증을 수행하지 않는다.
-     * <p> CourseRepository에서만 호출되어야 한다. (package-private)
      */
-    static Course reconstruct(Long id, String title, String description, Long instructorId,
+    public static Course reconstruct(Long id, String title, String description, Long instructorId,
             CourseStatus status, CourseLevel level, LocalDateTime publishedAt,
             LocalDateTime createdAt, LocalDateTime updatedAt) {
         Course course = new Course();

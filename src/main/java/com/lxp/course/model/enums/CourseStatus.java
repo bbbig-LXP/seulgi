@@ -1,4 +1,4 @@
-package com.lxp.course.model;
+package com.lxp.course.model.enums;
 
 public enum CourseStatus {
     DRAFT("예정"), PUBLISHED("발행"), ARCHIVED("보관");

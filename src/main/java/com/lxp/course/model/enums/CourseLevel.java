@@ -1,4 +1,4 @@
-package com.lxp.course.model;
+package com.lxp.course.model.enums;
 
 public enum CourseLevel {
     BEGINNER("입문"), INTERMEDIATE("중급"), ADVANCED("고급");

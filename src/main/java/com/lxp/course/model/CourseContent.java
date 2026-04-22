@@ -1,7 +1,9 @@
 package com.lxp.course.model;
 
-import static com.lxp.course.model.ContentStatus.NORMAL;
+import static com.lxp.course.model.enums.ContentStatus.NORMAL;
 
+import com.lxp.course.model.enums.ContentStatus;
+import com.lxp.course.model.enums.ContentType;
 import java.time.LocalDateTime;
 
 public class CourseContent {
@@ -44,10 +46,9 @@ public class CourseContent {
 
     /**
      * DB 조회 결과로부터 CourseContent 객체를 복원한다.
-     *
-     * <p> CourseContentRepository에서만 호출되어야 한다. (package-private)
      */
-    static CourseContent reconstruct(Long id, String title, ContentType type, ContentStatus status,
+    public static CourseContent reconstruct(Long id, String title, ContentType type,
+            ContentStatus status,
             CourseSection section, LocalDateTime createdAt, LocalDateTime updatedAt) {
         CourseContent content = new CourseContent();
         content.id = id;

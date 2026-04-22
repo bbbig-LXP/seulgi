@@ -26,10 +26,8 @@ public class CourseService {
      */
     public Course createCourse(Long instructorId, String title, String description,
             CourseLevel level) {
-
-        User instructor = userRepository.findById(instructorId)
-                .orElseThrow(() -> new IllegalArgumentException(
-                        "존재하지 않는 사용자입니다. id=" + instructorId));
+        User instructor = userRepository.findById(instructorId).orElseThrow(
+                () -> new IllegalArgumentException("존재하지 않는 사용자입니다. id=" + instructorId));
 
         Course course = Course.create(title, description, instructor, level);
 

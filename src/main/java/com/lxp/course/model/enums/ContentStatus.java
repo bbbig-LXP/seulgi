@@ -1,4 +1,4 @@
-package com.lxp.course.model;
+package com.lxp.course.model.enums;
 
 public enum ContentStatus {
     NORMAL("정상"), HIDDEN("숨김");
