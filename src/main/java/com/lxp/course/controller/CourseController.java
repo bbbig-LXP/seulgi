@@ -32,7 +32,7 @@ public class CourseController {
             String description = scanner.nextLine().trim();
 
             System.out.print("난이도 (BEGINNER / INTERMEDIATE / ADVANCED): ");
-            CourseLevel level = CourseLevel.valueOf(scanner.nextLine().trim().toUpperCase());
+            CourseLevel level = CourseLevel.from(scanner.nextLine().trim());
 
             Course course = courseService.createCourse(instructorId, title, description, level);
             System.out.printf("%n강좌가 등록되었습니다. [ID: %d] %s%n", course.getId(), course.getTitle());
