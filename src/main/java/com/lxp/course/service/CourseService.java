@@ -105,4 +105,16 @@ public class CourseService {
 
         return course;
     }
+
+    public Course archiveCourse(Long courseId) {
+        Course course = courseRepository.findWithSectionsAndContentsById(courseId)
+                .orElseThrow(() -> new IllegalArgumentException(
+                        "존재하지 않는 강좌입니다. id=" + courseId));
+
+        course.archive();
+
+        courseRepository.update(course);
+        
+        return course;
+    }
 }

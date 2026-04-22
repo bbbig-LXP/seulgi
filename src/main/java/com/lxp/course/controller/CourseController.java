@@ -65,4 +65,8 @@ public class CourseController {
     public Course publishCourse(Long courseId) {
         return courseService.publishCourse(courseId);
     }
+
+    public Course archiveCourse(Long courseId) {
+        return courseService.archiveCourse(courseId);
+    }
 }

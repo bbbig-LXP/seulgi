@@ -198,6 +198,9 @@ public class Course {
         if (this.status != PUBLISHED) {
             throw new IllegalStateException("PUBLISHED 상태인 강좌만 보관할 수 있습니다.");
         }
+        if (this.status == ARCHIVED) {
+            throw new IllegalArgumentException("이미 보관된 강좌입니다.");
+        }
         this.status = ARCHIVED;
         this.updatedAt = LocalDateTime.now();
     }
