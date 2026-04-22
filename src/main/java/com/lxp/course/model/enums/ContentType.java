@@ -1,4 +1,4 @@
-package com.lxp.course.model;
+package com.lxp.course.model.enums;
 
 public enum ContentType {
     VIDEO("영상"), DOCUMENT("문서");

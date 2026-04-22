@@ -1,12 +1,15 @@
 package com.lxp.course.model;
 
-import static com.lxp.course.model.CourseStatus.ARCHIVED;
-import static com.lxp.course.model.CourseStatus.DRAFT;
-import static com.lxp.course.model.CourseStatus.PUBLISHED;
+import static com.lxp.course.model.enums.CourseStatus.ARCHIVED;
+import static com.lxp.course.model.enums.CourseStatus.DRAFT;
+import static com.lxp.course.model.enums.CourseStatus.PUBLISHED;
 
+import com.lxp.course.model.enums.CourseLevel;
+import com.lxp.course.model.enums.CourseStatus;
 import com.lxp.user.model.User;
 import java.time.LocalDateTime;
 import java.util.ArrayList;
+import java.util.Collections;
 import java.util.List;
 
 public class Course {
@@ -56,9 +59,8 @@ public class Course {
      * DB 조회 결과로부터 Course 객체를 복원한다.
      *
      * <p> 이미 저장된 데이터를 복원하는 것이므로 도메인 검증을 수행하지 않는다.
-     * <p> CourseRepository에서만 호출되어야 한다. (package-private)
      */
-    static Course reconstruct(Long id, String title, String description, Long instructorId,
+    public static Course reconstruct(Long id, String title, String description, Long instructorId,
             CourseStatus status, CourseLevel level, LocalDateTime publishedAt,
             LocalDateTime createdAt, LocalDateTime updatedAt) {
         Course course = new Course();
@@ -152,7 +154,7 @@ public class Course {
         if (this.status != DRAFT) {
             throw new IllegalStateException("DRAFT 상태인 강좌에만 섹션을 추가할 수 있습니다.");
         }
-        
+
         this.sections.add(section);
         this.updatedAt = LocalDateTime.now();
     }
@@ -191,8 +193,43 @@ public class Course {
         this.updatedAt = LocalDateTime.now();
     }
 
-    // getters
     public Long getId() {
         return id;
+    }
+
+    public String getTitle() {
+        return title;
+    }
+
+    public String getDescription() {
+        return description;
+    }
+
+    public Long getInstructorId() {
+        return instructorId;
+    }
+
+    public CourseStatus getStatus() {
+        return status;
+    }
+
+    public CourseLevel getLevel() {
+        return level;
+    }
+
+    public LocalDateTime getPublishedAt() {
+        return publishedAt;
+    }
+
+    public LocalDateTime getCreatedAt() {
+        return createdAt;
+    }
+
+    public LocalDateTime getUpdatedAt() {
+        return updatedAt;
+    }
+
+    public List<CourseSection> getSections() {
+        return Collections.unmodifiableList(sections);
     }
 }
