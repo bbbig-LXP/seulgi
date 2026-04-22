@@ -2,7 +2,10 @@ package com.lxp;
 
 import com.lxp.course.controller.CourseController;
 import com.lxp.course.model.Course;
+import com.lxp.course.model.CourseContent;
 import com.lxp.course.model.CourseSection;
+import com.lxp.course.model.enums.ContentStatus;
+import com.lxp.course.model.enums.ContentType;
 import com.lxp.course.model.enums.CourseLevel;
 import com.lxp.global.config.AppConfig;
 import java.sql.SQLException;
@@ -24,6 +27,7 @@ public class Application {
             System.out.println("\n=== LXP 관리 시스템 ===");
             System.out.println("1. 강좌 등록");
             System.out.println("2. 강좌 섹션 등록");
+            System.out.println("3. 강좌 컨텐츠 등록");
             System.out.println("0. 종료");
             System.out.print("선택: ");
 
@@ -32,6 +36,7 @@ public class Application {
             switch (input) {
                 case "1" -> handleCreateCourse();
                 case "2" -> handleCreateSection();
+                case "3" -> handleCreateContent();
                 case "0" -> {
                     System.out.println("종료합니다.");
                     scanner.close();
@@ -67,7 +72,6 @@ public class Application {
         }
     }
 
-    // static 키워드 제거, 파라미터 불필요
     private void handleCreateSection() {
         System.out.println("\n=== 섹션 등록 ===");
         try {
@@ -79,6 +83,32 @@ public class Application {
 
             CourseSection section = courseController.createSection(courseId, title);
             System.out.printf("%n섹션이 등록되었습니다. [ID: %d] %s%n", section.getId(), section.getTitle());
+
+        } catch (NumberFormatException e) {
+            System.out.println("[오류] ID는 숫자로 입력해주세요.");
+        } catch (IllegalArgumentException | IllegalStateException e) {
+            System.out.println("[오류] " + e.getMessage());
+        }
+    }
+
+    private void handleCreateContent() {
+        System.out.println("\n=== 콘텐츠 등록 ===");
+
+        try {
+            System.out.print("섹션 ID: ");
+            Long sectionId = Long.parseLong(scanner.nextLine().trim());
+
+            System.out.print("콘텐츠명: ");
+            String title = scanner.nextLine().trim();
+
+            System.out.print("콘텐츠 타입 (VIDEO / DOCUMENT): ");
+            ContentType type = ContentType.from(scanner.nextLine().trim());
+
+            System.out.print("콘텐츠 상태 (NORMAL / HIDDEN): ");
+            ContentStatus status = ContentStatus.from(scanner.nextLine().trim());
+
+            CourseContent content = courseController.createContent(sectionId, title, type, status);
+            System.out.printf("%n콘텐츠가 등록되었습니다. [ID: %d] %s%n", content.getId(), content.getTitle());
 
         } catch (NumberFormatException e) {
             System.out.println("[오류] ID는 숫자로 입력해주세요.");
