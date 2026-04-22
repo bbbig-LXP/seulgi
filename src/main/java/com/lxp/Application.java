@@ -9,6 +9,7 @@ import com.lxp.course.model.enums.ContentType;
 import com.lxp.course.model.enums.CourseLevel;
 import com.lxp.global.config.AppConfig;
 import java.sql.SQLException;
+import java.util.List;
 import java.util.Scanner;
 
 public class Application {
@@ -28,6 +29,7 @@ public class Application {
             System.out.println("1. 강좌 등록");
             System.out.println("2. 강좌 섹션 등록");
             System.out.println("3. 강좌 컨텐츠 등록");
+            System.out.println("4. 강좌 전체 조회");
             System.out.println("0. 종료");
             System.out.print("선택: ");
 
@@ -37,6 +39,7 @@ public class Application {
                 case "1" -> handleCreateCourse();
                 case "2" -> handleCreateSection();
                 case "3" -> handleCreateContent();
+                case "4" -> handleGetAllCourses();
                 case "0" -> {
                     System.out.println("종료합니다.");
                     scanner.close();
@@ -113,6 +116,29 @@ public class Application {
         } catch (NumberFormatException e) {
             System.out.println("[오류] ID는 숫자로 입력해주세요.");
         } catch (IllegalArgumentException | IllegalStateException e) {
+            System.out.println("[오류] " + e.getMessage());
+        }
+    }
+
+    public void handleGetAllCourses() {
+        System.out.println("\n=== 강좌 전체 조회 ===");
+
+        try {
+            List<Course> allCourses = courseController.getAllCourses();
+
+            for (Course course : allCourses) {
+                System.out.println();
+                System.out.println("ID          : " + course.getId());
+                System.out.println("제목        : " + course.getTitle());
+                System.out.println("설명        : " + course.getDescription());
+                System.out.println("강사 ID     : " + course.getInstructorId());
+                System.out.println("상태        : " + course.getStatus());
+                System.out.println("난이도      : " + course.getLevel());
+            }
+
+        } catch (NumberFormatException e) {
+            System.out.println("[오류] ID는 숫자로 입력해주세요.");
+        } catch (IllegalArgumentException e) {
             System.out.println("[오류] " + e.getMessage());
         }
     }

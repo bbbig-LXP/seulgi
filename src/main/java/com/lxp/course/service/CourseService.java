@@ -11,6 +11,7 @@ import com.lxp.course.repository.CourseRepository;
 import com.lxp.course.repository.CourseSectionRepository;
 import com.lxp.user.model.User;
 import com.lxp.user.repository.UserRepository;
+import java.util.List;
 
 public class CourseService {
 
@@ -82,5 +83,9 @@ public class CourseService {
         section.addContent(content);
 
         return contentRepository.save(content);
+    }
+
+    public List<Course> getCoursesByStatus() {
+        return courseRepository.findAll();
     }
 }

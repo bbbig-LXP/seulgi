@@ -7,6 +7,7 @@ import com.lxp.course.model.enums.ContentStatus;
 import com.lxp.course.model.enums.ContentType;
 import com.lxp.course.model.enums.CourseLevel;
 import com.lxp.course.service.CourseService;
+import java.util.List;
 import java.util.Scanner;
 
 public class CourseController {
@@ -40,5 +41,9 @@ public class CourseController {
     public CourseContent createContent(Long sectionId, String title, ContentType type,
             ContentStatus status) {
         return courseService.createContent(sectionId, title, type, status);
+    }
+
+    public List<Course> getAllCourses() {
+        return courseService.getCoursesByStatus();
     }
 }

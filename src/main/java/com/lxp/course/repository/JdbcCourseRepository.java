@@ -9,6 +9,8 @@ import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.sql.Statement;
 import java.sql.Timestamp;
+import java.util.ArrayList;
+import java.util.List;
 import java.util.Optional;
 import javax.sql.DataSource;
 
@@ -100,6 +102,42 @@ public class JdbcCourseRepository implements CourseRepository {
 
         } catch (SQLException e) {
             throw new RuntimeException("강좌 조회 중 오류가 발생했습니다.", e);
+        }
+    }
+
+    @Override
+    public List<Course> findAll() {
+        String sql = """
+                SELECT id, title, description, instructor_id, status, level,
+                       published_at, created_at, updated_at
+                FROM courses
+                ORDER BY id
+                """;
+
+        try (Connection conn = dataSource.getConnection();
+                PreparedStatement pstmt = conn.prepareStatement(sql)) {
+
+            try (ResultSet rs = pstmt.executeQuery()) {
+                List<Course> courses = new ArrayList<>();
+                while (rs.next()) {
+                    courses.add(Course.reconstruct(
+                            rs.getLong("id"),
+                            rs.getString("title"),
+                            rs.getString("description"),
+                            rs.getLong("instructor_id"),
+                            CourseStatus.valueOf(rs.getString("status")),
+                            CourseLevel.valueOf(rs.getString("level")),
+                            rs.getTimestamp("published_at") != null
+                                    ? rs.getTimestamp("published_at").toLocalDateTime() : null,
+                            rs.getTimestamp("created_at").toLocalDateTime(),
+                            rs.getTimestamp("updated_at").toLocalDateTime()
+                    ));
+                }
+                return courses;
+            }
+
+        } catch (SQLException e) {
+            throw new RuntimeException("강좌 목록 조회 중 오류가 발생했습니다.", e);
         }
     }
 }
