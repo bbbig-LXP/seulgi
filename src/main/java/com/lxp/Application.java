@@ -202,6 +202,8 @@ public class Application {
     }
 
     private void handlePublishCourse() {
+        System.out.println("\n=== 강좌 발행 ===");
+
         try {
             System.out.print("발행하려는 강좌 ID: ");
             Long courseId = Long.parseLong(scanner.nextLine().trim());
