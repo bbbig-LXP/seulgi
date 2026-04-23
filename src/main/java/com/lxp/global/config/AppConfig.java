@@ -38,7 +38,7 @@ public class AppConfig {
     }
 
     public CourseController courseController() {
-        return new CourseController(courseService(), scanner);
+        return new CourseController(courseService());
     }
 
     private CourseService courseService() {
