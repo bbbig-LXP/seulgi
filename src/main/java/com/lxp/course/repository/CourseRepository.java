@@ -11,6 +11,9 @@ public interface CourseRepository {
     Optional<Course> findById(Long id);
 
     List<Course> findAll();
-    
+
     Optional<Course> findWithSectionsAndContentsById(Long id);
+
+    void update(Course course);
+
 }

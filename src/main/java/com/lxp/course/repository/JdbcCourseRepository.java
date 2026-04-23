@@ -265,4 +265,28 @@ public class JdbcCourseRepository implements CourseRepository {
             throw new RuntimeException(e);
         }
     }
+
+    @Override
+    public void update(Course course) {
+        String sql = """
+                UPDATE Courses
+                SET status = ?, published_at = ?, updated_at = ?
+                WHERE id = ?
+                """;
+
+        try (Connection conn = dataSource.getConnection();
+                PreparedStatement pstmt = conn.prepareStatement(sql)) {
+
+            pstmt.setString(1, course.getStatus().name());
+            pstmt.setTimestamp(2, course.getPublishedAt() != null
+                    ? Timestamp.valueOf(course.getPublishedAt()) : null);
+            pstmt.setTimestamp(3, Timestamp.valueOf(course.getUpdatedAt()));
+            pstmt.setLong(4, course.getId());
+
+            pstmt.executeUpdate();
+
+        } catch (SQLException e) {
+            throw new RuntimeException("강좌 업데이트 중 오류가 발생했습니다.", e);
+        }
+    }
 }

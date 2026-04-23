@@ -40,7 +40,7 @@ public class CourseService {
     public Course createCourse(Long instructorId, String title, String description,
             CourseLevel level) {
         User instructor = userRepository.findById(instructorId).orElseThrow(
-                () -> new IllegalArgumentException("존재하지 않는 사용자입니다. id=" + instructorId));
+                () -> new IllegalArgumentException("존재하지 않는 사용자입니다. userId=" + instructorId));
 
         Course course = Course.create(title, description, instructor, level);
 
@@ -91,6 +91,18 @@ public class CourseService {
 
     public Course getCourseWithDetail(Long courseId) {
         return courseRepository.findWithSectionsAndContentsById(courseId).orElseThrow(
-                () -> new IllegalArgumentException("존재하지 않는 강좌입니다. id=" + courseId));
+                () -> new IllegalArgumentException("존재하지 않는 강좌입니다. courseId=" + courseId));
+    }
+
+    public Course publishCourse(Long courseId) {
+        Course course = courseRepository.findWithSectionsAndContentsById(courseId)
+                .orElseThrow(
+                        () -> new IllegalArgumentException("존재하지 않는 강좌입니다. courseId=" + courseId));
+
+        course.publish();
+
+        courseRepository.update(course);
+
+        return course;
     }
 }

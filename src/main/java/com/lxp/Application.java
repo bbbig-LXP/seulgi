@@ -32,6 +32,7 @@ public class Application {
             System.out.println("3. 강좌 컨텐츠 등록");
             System.out.println("4. 강좌 전체 조회");
             System.out.println("5. 강좌 상세 조회");
+            System.out.println("6. 강좌 발행");
             System.out.println("0. 종료");
             System.out.print("선택: ");
 
@@ -43,6 +44,7 @@ public class Application {
                 case "3" -> handleCreateContent();
                 case "4" -> handleGetAllCourses();
                 case "5" -> handleGetCourseDetail();
+                case "6" -> handlePublishCourse();
                 case "0" -> {
                     System.out.println("종료합니다.");
                     scanner.close();
@@ -193,6 +195,22 @@ public class Application {
         } catch (NumberFormatException e) {
             System.out.println("[오류] ID는 숫자로 입력해주세요.");
         } catch (IllegalArgumentException e) {
+            System.out.println("[오류] " + e.getMessage());
+        }
+    }
+
+    private void handlePublishCourse() {
+        try {
+            System.out.print("발행하려는 강좌 ID: ");
+            Long courseId = Long.parseLong(scanner.nextLine().trim());
+
+            Course publishCourse = courseController.publishCourse(courseId);
+
+            System.out.printf("%n강좌가 발행되었습니다. [ID: %d] %s%n",
+                    publishCourse.getId(), publishCourse.getTitle());
+        } catch (NumberFormatException e) {
+            System.out.println("[오류] ID는 숫자로 입력해주세요.");
+        } catch (IllegalArgumentException | IllegalStateException e) {
             System.out.println("[오류] " + e.getMessage());
         }
     }
