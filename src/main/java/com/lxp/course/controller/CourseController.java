@@ -9,16 +9,13 @@ import com.lxp.course.model.enums.ContentType;
 import com.lxp.course.model.enums.CourseLevel;
 import com.lxp.course.service.CourseService;
 import java.util.List;
-import java.util.Scanner;
 
 public class CourseController {
 
     private final CourseService courseService;
-    private final Scanner scanner;
 
-    public CourseController(CourseService courseService, Scanner scanner) {
+    public CourseController(CourseService courseService) {
         this.courseService = courseService;
-        this.scanner = scanner;
     }
 
     /**
@@ -64,5 +61,9 @@ public class CourseController {
      */
     public Course publishCourse(Long courseId) {
         return courseService.publishCourse(courseId);
+    }
+
+    public Course archiveCourse(Long courseId) {
+        return courseService.archiveCourse(courseId);
     }
 }
